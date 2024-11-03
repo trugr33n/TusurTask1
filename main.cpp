@@ -7,17 +7,18 @@
 void vector_container_display(std::vector<Product> pattern_vector, std::string pattern_script, std::string pattern_description, std::string sep);
 
 int main(){
-    setlocale(LC_ALL, "Russia");
+    setlocale(LC_ALL, "Russian");
 
     std::vector<Product> products = {
-        Product("Вино", "Алкогольный напиток из винограда", 5000),
-        Product("Дюшес", "Грушевая газировка \"Прямиком из детства\"", 65.5),
-        Product("Сок", "Свежевыжитый сок из банана и яблока", 100.99),
-        Product("Молоко", "Пейте дети молоко - будете здоровы!", 79.89),
-        Product("Пепси", "Американский напиток с приятным вкусом и секретным рецептом", 200.49)
+        Product("Wine", "Alcoholic drink made from grapes", 5000),
+        Product("Pear soda", "Fresh soda \"Straight from childhood\"", 65.5),
+        Product("Juice", "Freshly squeezed banana and apple juice", 100.99),
+        Product("Milk", "Too much dairy?", 79.89),
+        Product("Pepsi", "An American drink with a pleasant taste and a secret recipe", 200.49)
     };
 
-    ProductsList list_of_products(products, products.size(), "Напитки");
+    //Создание объекта list_of_products через указатель
+    ProductsList* list_of_products = new ProductsList(products, products.size(), "Drinks");
 
     std::vector<Product> products_in_cart = {
         products[4],
@@ -25,27 +26,31 @@ int main(){
         products[1]
     };
 
-    Cart my_cart(products_in_cart, products_in_cart.size());
+    //Создание объекта my_cart через указатель
+    Cart* my_cart = new Cart(products_in_cart, products_in_cart.size());
 
 
     vector_container_display(
-        list_of_products.GetProducts(),
-        "В данном динамическом массиве(векторе) находятся данные продукты для списка продуктов:",
-        "В объекте массива: первое - название продукта, второе - описание продукта, а третье - цена продукта",
+        list_of_products->GetProducts(),
+        "This dynamic array (vector) contains these products for the list of products:",
+        "In the array object: the first is the product name, the second is the product description, and the third is the product price",
         ", "
     );
-    std::cout << "Колличество продуктов в списке составляет - " <<
-     list_of_products.GetProductsCount() << ", а его категорией - " << list_of_products.GetCategory() << "\n\n";
+    std::cout << "The number of products in the list is - " <<
+     list_of_products->GetProductsCount() << ", and it\'s category - " << list_of_products->GetCategory() << "\n\n";
 
     vector_container_display(
-        my_cart.GetProducts(),
-        "В данном динамическом массиве(векторе) находятся данные продукты для тележки:",
-        "В объекте массива: первое - название продукта, второе - описание продукта, а третье - цена продукта",
+        my_cart->GetProducts(),
+        "This dynamic array (vector) contains these products for the cart:",
+        "In the array object: the first is the product name, the second is the product description, and the third is the product price",
         ", "
     );
-    std::cout << "Колличество продуктов в тележке составляет - " << my_cart.GetProductsCount() <<
-     ", а полная цена всех товаров в ней равна " << my_cart.GetFullCost() << "\n\n";
+    std::cout << "The number of products in the cart is - " << my_cart->GetProductsCount() <<
+     ", and the total price of all the goods in it is equal to " << my_cart->GetFullCost() << "\n\n";
 
+    //Освобождение памяти и возвращение нуля в main
+    delete my_cart;
+    delete list_of_products;
     return 0;
 }
 
